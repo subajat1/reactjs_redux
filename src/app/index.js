@@ -1,6 +1,6 @@
 import {render} from "react-dom";
 import React from "react";
-import {createStore, combineReducers} from "redux";
+import {createStore, combineReducers, applyMiddleware} from "redux";
 
 const initialState = {
     result: 1,
@@ -48,11 +48,15 @@ const userReducer = (state = {
     return state;
 };
 
+const myLogger = (store) => (next) => (action) => {
+    console.log("Logged action: ", action);
+    next(action);
+};
 
 const store = createStore(combineReducers({
     mathReducer: mathReducer,
     userReducer: userReducer
-}));
+}), {}, applyMiddleware(myLogger));
 
 store.subscribe(() => {
     console.log("Store updated!", store.getState());
