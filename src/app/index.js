@@ -2,13 +2,14 @@ import {render} from "react-dom";
 import React from "react";
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import logger from "redux-logger";
+import {Provider} from "react-redux";
 
-const initialState = {
+import App from "./components/App";
+
+const mathReducer = (state = {
     result: 1,
     lastValues: []
-};
-
-const mathReducer = (state = initialState, action) => {
+}, action) => {
     switch (action.type) {
         case "ADD":
             state = {
@@ -56,8 +57,8 @@ const myLogger = (store) => (next) => (action) => {
 
 const store = createStore(
     combineReducers({
-        mathReducer: mathReducer,
-        userReducer: userReducer
+        math: mathReducer,
+        user: userReducer
     }), 
     {}, 
     applyMiddleware(myLogger, logger()));
@@ -66,20 +67,26 @@ store.subscribe(() => {
     // console.log("Store updated!", store.getState());
 });
 
-store.dispatch({
-    type: "ADD",
-    payload: 100
-});
-store.dispatch({
-    type: "ADD",
-    payload: 22
-});
-store.dispatch({
-    type: "SUBTRACT",
-    payload: 80
-});
+// store.dispatch({
+//     type: "ADD",
+//     payload: 100
+// });
+// store.dispatch({
+//     type: "ADD",
+//     payload: 22
+// });
+// store.dispatch({
+//     type: "SUBTRACT",
+//     payload: 80
+// });
 
-store.dispatch({
-    type: "SET_AGE",
-    payload: 30
-});
+// store.dispatch({
+//     type: "SET_AGE",
+//     payload: 30
+// });
+
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    window.document.getElementById('app'));
