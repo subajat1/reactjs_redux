@@ -7,7 +7,7 @@ const initialState = {
     lastValues: []
 };
 
-const reducer = (state = initialState, action) => {
+const mathReducer = (state = initialState, action) => {
     switch (action.type) {
         case "ADD":
             state = {
@@ -28,7 +28,7 @@ const reducer = (state = initialState, action) => {
 };
 
 
-const store = createStore(reducer);
+const store = createStore(mathReducer);
 
 store.subscribe(() => {
     console.log("Store updated!", store.getState());
